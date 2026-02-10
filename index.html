@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Home</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Topbar (matcher dine screens: burger/back + titel + kebab) -->
+    <header class="topbar">
+      <button class="icon-btn" button type="submit" id="leftBtn" aria-label="Tilbage / menu">☰</button>
+      <h1 class="top-title" id="pageTitle">Smart Home</h1>
+      <button class="icon-btn" button type="submit"  aria-label="Menu">⋮</button>
+    </header>
+
+    <main class="content" id="content" tabindex="-1">
+      <!-- HOME -->
+      <section class="page" data-page="home">
+        <h2 class="section-title">Energi Forbrug</h2>
+
+        <div class="card energy-card">
+          <div class="energy-left">
+            <div class="app-icon">📈</div>
+            <div>
+              <div class="muted">10 feb 2026</div>
+            </div>
+          </div>
+
+          <div class="energy-right">
+            <div class="energy-value"><span id="homeKwh">29,3</span> <span class="unit">kWh</span></div>
+            <div class="energy-sub" id="homeDelta">23% mindre end i går</div>
+          </div>
+        </div>
+
+        <div class="row between">
+          <h2 class="section-title">Rum</h2>
+          <button type="button" class="link-btn">Vis alle ▾</button>
+        </div>
+
+        <div class="chip-row">
+          <button class="chip" button type="button" data-room="bedroom">🛏️ Soveværelse</button>
+          <button class="chip active" button type="button"  data-room="living">🛋️ Stue</button>
+          <button class="chip" button type="button" data-room="bath">🛁 Badeværelse</button>
+        </div>
+
+        <h2 class="section-title">Forudindstillet</h2>
+        <div class="chip-row">
+          <button class="chip active" button type="button">🏠 Hjemme</button>
+          <button class="chip" button type="button">🚶 Ude</button>
+          <button class="chip" button type="button">🛌 Sover</button>
+        </div>
+
+        <h2 class="section-title">Smart indstillinger</h2>
+
+        <div class="grid2">
+          <!-- Lys i stuen -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Lys i Stuen</div>
+              </div>
+              <span class="muted"> </span>
+            </div>
+
+            <div class="toggle-list">
+              <div class="toggle-row">
+                <span class="muted">Alt lys</span>
+                <label class="switch">
+                  <label for="toggle-list"input type="checkbox" checked>
+                  <span class="track"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <span class="muted">Loftlampe</span>
+                <label class="switch">
+                  <label for="toggle-row"input type="checkbox" checked>
+                  <span class="track"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <span class="muted">Bordlampe 1</span>
+                <label class="switch">
+                  <label for="toggle-row"input type="checkbox" checked>
+                  <span class="track"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <span class="muted">Bordlampe 2</span>
+                <label class="switch">
+                  <label for="toggle-row"input type="checkbox" checked>
+                  <span class="track"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Varme i stuen -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Varme i Stuen</div>
+                <div class="muted">Fan Coil</div>
+              </div>
+              <label class="switch">
+                <label for=input type="checkbox" checked id="homeHeatOn">
+                <span class="track"></span>
+              </label>
+            </div>
+
+            <div class="temp-mini">
+              <span class="temp-icon">🌡️</span>
+              <div>
+                <div class="temp-mini-value"><span id="homeInside">22</span>°C</div>
+                <div class="muted">Manuel - mode</div>
+              </div>
+            </div>
+
+            <a class="primary-btn" href="#/heat">⚙️ Indstillinger</a>
+          </div>
+        </div>
+
+        <!-- Ekstra card -->
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title">Lys i Køkken</div>
+            <div class="toggle-row">
+              <span class="muted">Køkkenbord</span>
+              <label class="switch"><labek for input type="checkbox" /><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="muted">Loftlampe</span>
+              <label class="switch"><label forinput type="checkbox" checked><span class="track"></span></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">Varme i Soveværelse</div>
+                <div class="muted">Radiator</div>
+              </div>
+              <label class="switch">
+                <label for input type="checkbox">
+                <span class="track"></span>
+              </label>
+            </div>
+
+            <div class="temp-mini">
+              <span class="temp-icon">🌡️</span>
+              <div>
+                <div class="temp-mini-value">17°C</div>
+                <div class="muted">Auto - mode</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HEAT / THERMOSTAT -->
+      <section class="page" data-page="heat">
+        <div class="subheader">
+          <div class="muted" id="roomLabel">Stue</div>
+        </div>
+
+        <div class="card thermo-card">
+          <div class="dial-wrap" id="dial">
+            <!-- Halv ring (SVG). Vi tegner track + progress -->
+            <svg class="dial" viewBox="0 0 240 160" aria-hidden="true">
+              <!-- track -->
+              <path id="dialTrack" class="dial-track"
+                d="M 20 140 A 100 100 0 0 1 220 140" />
+              <!-- progress -->
+              <path id="dialProgress" class="dial-progress"
+                d="M 20 140 A 100 100 0 0 1 220 140" />
+            </svg>
+
+            <!-- knob (positioneres af JS) -->
+            <div class="knob" id="knob" aria-hidden="true"></div>
+
+            <div class="dial-center">
+              <div class="dial-temp"><span id="setpoint">23</span>°C</div>
+              <div class="muted">Termostat</div>
+            </div>
+          </div>
+
+          <div class="temp-row">
+            <div class="temp-stat">
+              <div class="temp-stat-icon">☁️</div>
+              <div>
+                <div class="temp-stat-value"><span id="outside">11</span>°C</div>
+                <div class="muted">Udetemperatur</div>
+              </div>
+            </div>
+
+            <div class="temp-stat">
+              <div class="temp-stat-icon">🌡️</div>
+              <div>
+                <div class="temp-stat-value"><span id="inside">22</span>°C</div>
+                <div class="muted">Indetemperatur</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Ventilator</h2>
+        <div class="card">
+          <div class="fan-row">
+            <div class="fan-icon">〰️</div>
+            <div class="fan-bars" id="fanBars" role="radiogroup" aria-label="Ventilator niveau">
+              <button class="bar active" button type="button" title="low"  data-fan="1" role="radio" aria-checked="true"></button>
+              <button class="bar active" button type="button" title="mid-low" data-fan="2" role="radio" aria-checked="true"></button>
+              <button class="bar active" button type="button" title="mid" data-fan="3" role="radio" aria-checked="true"></button>
+              <button class="bar" button type="button" data-fan="4" title="mid-high" role="radio" aria-checked="false"></button>
+              <button class="bar" button type="button" data-fan="5" title="high" role="radio" aria-checked="false"></button>
+              <button class="bar" button type="button" data-fan="6" title="very high" role="radio" aria-checked="false"></button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title">Mode</h2>
+        <div class="grid3">
+          <button class="mode-card active" button type="button" data-mode="manual">
+            <div class="mode-icon">☝️</div>
+            <div class="mode-text">Manuel</div>
+          </button>
+          <button class="mode-card" button type="button" data-mode="schedule">
+            <div class="mode-icon">🕒</div>
+            <div class="mode-text">Tidsplan</div>
+          </button>
+          <button class="mode-card" button type="button" data-mode="boost">
+            <div class="mode-icon">🚀</div>
+            <div class="mode-text">Boost</div>
+          </button>
+        </div>
+
+        <div class="power-wrap">
+          <button class="power-btn" button type="button" id="powerBtn" aria-pressed="true">⏻</button>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="page" data-page="stats">
+        <div class="row between">
+          <h2 class="section-title">Statistik</h2>
+          <button class="icon-btn" button type="button" aria-label="Menu">⋮</button>
+        </div>
+
+        <div class="card">
+          <div class="row between">
+            <div class="section-title" style="margin:0">Forbrug</div>
+            <button class="link-btn">Ugentligt ▾</button>
+          </div>
+
+          <!-- Simple SVG chart (line + dashed reference + bar highlight) -->
+          <div class="chart">
+            <svg viewBox="0 0 320 150" aria-label="Forbrug graf">
+              <path class="chart-dash" d="M10,60 C60,55 80,70 120,65 C165,60 200,72 240,66 C280,60 300,70 310,80"/>
+              <path class="chart-line" d="M10,58 C55,85 85,55 120,78 C160,110 190,72 210,88" />
+              <rect class="chart-bar" x="118" y="72" width="36" height="68" rx="6"></rect>
+              <circle class="chart-dot" cx="210" cy="88" r="6"></circle>
+              <text class="chart-text" x="150" y="55">29,3 kWh</text>
+
+              <!-- x labels -->
+              <text class="xlab" x="20"  y="146">Man</text>
+              <text class="xlab" x="70"  y="146">Tir</text>
+              <text class="xlab" x="120" y="146">Ons</text>
+              <text class="xlab" x="170" y="146">Tor</text>
+              <text class="xlab" x="220" y="146">Fre</text>
+              <text class="xlab" x="270" y="146">Lør</text>
+              <text class="xlab" x="305" y="146">Søn</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2 class="section-title">Udgifter</h2>
+
+        <div class="card list-card">
+          <div class="list-item">
+            <div class="list-left">
+              <div class="mini-icon">📊</div>
+              <div>
+                <div class="list-title">Man</div>
+                <div class="muted">32,8 kWh</div>
+              </div>
+            </div>
+            <div class="list-right">Kr. 89,56</div>
+          </div>
+
+          <div class="list-item">
+            <div class="list-left">
+              <div class="mini-icon">📊</div>
+              <div>
+                <div class="list-title">Tir</div>
+                <div class="muted">36,0 kWh</div>
+              </div>
+            </div>
+            <div class="list-right">Kr. 99,32</div>
+          </div>
+
+          <div class="list-item active">
+            <div class="list-left">
+              <div class="mini-icon active">📊</div>
+              <div>
+                <div class="list-title">Ons</div>
+                <div class="muted">29,3 kWh</div>
+              </div>
+            </div>
+            <div class="list-right">Kr. 81,04</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom nav (fast) -->
+    <nav class="bottomnav" aria-label="Bundnavigation">
+      <a class="bn-item" href="#/home" data-link="home" aria-label="Smart Home">▦</a>
+      <a class="bn-item" href="#/stats" data-link="stats" aria-label="Statistik">📈</a>
+      <a class="bn-item" href="#/heat" data-link="heat" aria-label="Varme">🌡️</a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
