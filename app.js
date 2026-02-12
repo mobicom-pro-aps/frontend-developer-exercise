@@ -133,7 +133,7 @@ function handleDialPointer(e) {
   const wrap = $("#dial");
   const rect = wrap.getBoundingClientRect();
 
-  // Brug pointer position -> beregn vinkel omkring center i dial-området
+  // Brug af pointer position -> beregner vinkel omkring center i dial-området
   const px = (e.clientX - rect.left);
   const py = (e.clientY - rect.top);
 
@@ -171,17 +171,22 @@ function bindEvents() {
   powerBtn?.addEventListener("click", () => {
     state.power = !state.power;
     render();
-    // her kan du POST til API: setStatus({ power: state.power, ... })
+    // her kan man POST til API: setStatus({ power: state.power, ... })
   });
 
   // fan
   $$("#fanBars .bar").forEach((b) => {
-    b.addEventListener("click", () => {
-      state.fan = Number(b.dataset.fan);
-      render();
-      // POST fan
-    });
+  b.addEventListener("click", async () => {
+    const level = Number(b.dataset.fan);
+    if (!Number.isFinite(level)) return;
+
+    state.fan = level;
+    render();
+
+    // hvis du bruger API:
+    // await saveDevice({ vent_level: String(level) });
   });
+});
 
   // mode
   modeCards.forEach((c) => {

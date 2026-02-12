@@ -24,7 +24,7 @@
           <div class="energy-left">
             <div class="app-icon">📈</div>
             <div>
-              <div class="muted">10 feb 2026</div>
+              <div class="muted">12 feb 2026</div>
             </div>
           </div>
 
@@ -212,12 +212,12 @@
           <div class="fan-row">
             <div class="fan-icon">〰️</div>
             <div class="fan-bars" id="fanBars" role="radiogroup" aria-label="Ventilator niveau">
-              <button class="bar active" button type="button" title="low"  data-fan="1" role="radio" aria-checked="true"></button>
-              <button class="bar active" button type="button" title="mid-low" data-fan="2" role="radio" aria-checked="true"></button>
-              <button class="bar active" button type="button" title="mid" data-fan="3" role="radio" aria-checked="true"></button>
-              <button class="bar" button type="button" data-fan="4" title="mid-high" role="radio" aria-checked="false"></button>
-              <button class="bar" button type="button" data-fan="5" title="high" role="radio" aria-checked="false"></button>
-              <button class="bar" button type="button" data-fan="6" title="very high" role="radio" aria-checked="false"></button>
+              <button class="bar active" type="button" title="low"  data-fan="1" role="radio" aria-checked="true"></button>
+              <button class="bar active" type="button" title="mid-low" data-fan="2" role="radio" aria-checked="true"></button>
+              <button class="bar active" type="button" title="mid" data-fan="3" role="radio" aria-checked="true"></button>
+              <button class="bar active" type="button" data-fan="4" title="mid-high" role="radio" aria-checked="false"></button>
+              <button class="bar active" type="button" data-fan="5" title="high" role="radio" aria-checked="false"></button>
+              <button class="bar active" type="button" data-fan="6" title="very high" role="radio" aria-checked="false"></button>
             </div>
           </div>
         </div>
@@ -252,8 +252,8 @@
 
         <div class="card">
           <div class="row between">
-            <div class="section-title" style="margin:0">Forbrug</div>
-            <button class="link-btn">Ugentligt ▾</button>
+            <div class="section-title">Forbrug</div>
+            <button type="button" class="link-btn">Ugentligt ▾</button>
           </div>
 
           <!-- Simple SVG chart (line + dashed reference + bar highlight) -->
@@ -323,7 +323,9 @@
       <a class="bn-item" href="#/heat" data-link="heat" aria-label="Varme">🌡️</a>
     </nav>
   </div>
+ 
 
   <script src="app.js"></script>
+ 
 </body>
 </html>

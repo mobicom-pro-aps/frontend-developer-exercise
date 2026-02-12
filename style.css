@@ -303,3 +303,9 @@ body{
   background: var(--blue-weak);
   color: var(--blue);
 }
+
+.section-title {
+    margin: 0;
+}
+
+

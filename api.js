@@ -1,5 +1,4 @@
-// api.js
-export const BASE_URL = "https://exercise.mobicom-pro.com/docs#/Weather";
+const BASE_URL = "https://exercise.mobicom-pro.com/docs#/Weather";
 
 export const PATHS = {
   devices: "/devices",
@@ -47,7 +46,7 @@ export async function api(path, { method = "GET", body } = {}) {
   return parseBody(res);
 }
 
-// --- AUTH (hvis du har brug for at hente token automatisk) ---
+// --- AUTH ---
 export async function fetchToken(body = {}) {
   const data = await api(PATHS.token, { method: "POST", body }); // { token }
   if (!data?.token) throw new Error("Token mangler i response");
@@ -64,15 +63,6 @@ export async function getDevice(id) {
   return api(PATHS.deviceById(id)); // Device
 }
 
-/**
- * PUT med DeviceUpdate:
- * {
- *   name?: string,
- *   target_temp?: number,
- *   vent_level?: 0..6,
- *   work_mode?: "manual" | "timed" | "boost" | "off"
- * }
- */
 export async function putDeviceUpdate(id, update) {
   const payload = { ...update };
 
@@ -82,38 +72,6 @@ export async function putDeviceUpdate(id, update) {
 
   return api(PATHS.deviceById(id), { method: "PUT", body: payload });
 }
-
-// app.js
-import { getDevices, getDevice, putDeviceUpdate, api, PATHS } from "./api.js";
-
-// UI refs
-const setpointEl = document.querySelector("#setpoint");
-const insideEl = document.querySelector("#inside");
-const outsideEl = document.querySelector("#outside");
-
-const fanBarsEl = document.querySelector("#fanBars");
-const modeCards = Array.from(document.querySelectorAll(".mode-card"));
-const powerBtn = document.querySelector("#powerBtn");
-
-// Dial 
-const dialWrap = document.querySelector("#dial");
-const knobEl = document.querySelector("#knob");
-const progressEl = document.querySelector("#dialProgress");
-
-const state = {
-  deviceId: null,
-  device: null,
-  outsideTemp: null,
-  lastNonOffMode: "manual",
-};
-
-const MIN_T = 10;
-const MAX_T = 30;
-const START_DEG = 210;
-const END_DEG = -30;
-
-function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-function lerp(a,b,t){ return a + (b-a)*t; }
 
 function setDialVisual(temp) {
   temp = clamp(temp, MIN_T, MAX_T);
@@ -154,14 +112,13 @@ function renderThermostat() {
 
   setDialVisual(target);
 
-  // fan 0..6 (0 = off)
-  const vent = Number(d.vent_level ?? 0);
-  Array.from(fanBarsEl.querySelectorAll(".bar")).forEach((bar, idx) => {
-    const level= idx; // 0..6 (vi laver 7 bars inkl. 0?) -> se builder nedenfor
-    // Vi bygger bars for 1..6 og en "0" knap via data-fan="0"
-    const isActive = Number(bar.dataset.fan) <= vent && vent !== 0;
-    bar.classList.toggle("active", isActive);
-  });
+ // fan 0..6 (0 = off)
+const vent = Number(d.vent_level ?? 0);
+
+Array.from(fanBarsEl.querySelectorAll(".bar")).forEach((bar) => {
+  const isActive = Number(bar.dataset.fan) <= vent && vent !== 0;
+  bar.classList.toggle("active", isActive);
+});
 
   // mode
   const mode = String(d.work_mode || "manual");
@@ -184,7 +141,7 @@ async function loadDevice() {
 }
 
 async function loadOutside() {
-  // hvis weather path er korrekt:
+  //hvis weather path er korrekt:
   // const w = await api(PATHS.weather);
   // state.outsideTemp = w.temperature;
   // renderThermostat();
@@ -233,10 +190,8 @@ async function setTargetTemp(temp) {
 
 // --- Fan bars build (0..6) ---
 function buildFanBars() {
-  // Tøm og lav 6 niveauer (1..6) + en 0-knap hvis du vil
   fanBarsEl.innerHTML = "";
 
-  // 0 (off) som en lille knap til venstre (valgfrit)
   const off = document.createElement("button");
   off.className = "bar";
   off.dataset.fan = "0";
@@ -256,7 +211,6 @@ function buildFanBars() {
 
 // --- Mode buttons wiring ---
 function wireMode() {
-  // du har 3 knapper i UI, men API har også "off"
   // power-knap håndterer off.
   modeCards.forEach(card => {
     card.addEventListener("click", () => {
